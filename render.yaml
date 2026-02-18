@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: feishu-bot
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: FEISHU_APP_ID
+        value: cli_a905ffbe2ff81bd2
+      - key: FEISHU_APP_SECRET
+        value: 40IHBhA1CbUbMHZ0Rurij4FO3coum0o
+      - key: FEISHU_ENCRYPT_KEY
+        value: 4W0U0xKDlxassMBlxH9uIbGLGj7a2bfg
+      - key: FEISHU_VERIFICATION_TOKEN
+        value: 0Eoibn15qpN8LHj5lpvrgdPELtS7F8di
+      - key: PORT
+        value: 3000
