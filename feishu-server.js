@@ -103,28 +103,36 @@ function verifySignature(timestamp, nonce, encryptKey, body) {
 
 // 解密飞书事件
 function decryptEvent(encrypt, encryptKey) {
-  const encryptedBuf = Buffer.from(encrypt, 'base64');
-  const key = Buffer.from(encryptKey, 'utf8');
-  
-  const iv = encryptedBuf.slice(0, 16);
-  const data = encryptedBuf.slice(16);
-  
-  const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
-  let decrypted = decipher.update(data, null, 'utf8');
-  decrypted += decipher.final('utf8');
-  
-  return JSON.parse(decrypted);
+  try {
+    const encryptedBuf = Buffer.from(encrypt, 'base64');
+    const key = Buffer.from(encryptKey.slice(0, 32).padEnd(32, '0'), 'utf8');
+    
+    const iv = encryptedBuf.slice(0, 16);
+    const data = encryptedBuf.slice(16);
+    
+    const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
+    let decrypted = decipher.update(data, null, 'utf8');
+    decrypted += decipher.final('utf8');
+    
+    return JSON.parse(decrypted);
+  } catch (e) {
+    console.error('解密失败:', e.message);
+    return null;
+  }
 }
 
 // 飞书事件回调端点
 app.post('/webhook/feishu', async (req, res) => {
   try {
     let body = req.body;
-    const encryptKey = config.eventConfig?.encryptKey;
+    const encryptKey = process.env.FEISHU_ENCRYPT_KEY || config.eventConfig?.encryptKey;
     
     // 如果有加密内容，解密
     if (body.encrypt && encryptKey) {
       body = decryptEvent(body.encrypt, encryptKey);
+      if (!body) {
+        return res.status(400).json({ code: 400, msg: 'decrypt failed' });
+      }
     }
     
     const { type, challenge, header, event } = body;
