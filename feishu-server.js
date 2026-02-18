@@ -101,10 +101,33 @@ function verifySignature(timestamp, nonce, encryptKey, body) {
   return signature;
 }
 
+// 解密飞书事件
+function decryptEvent(encrypt, encryptKey) {
+  const encryptedBuf = Buffer.from(encrypt, 'base64');
+  const key = Buffer.from(encryptKey, 'utf8');
+  
+  const iv = encryptedBuf.slice(0, 16);
+  const data = encryptedBuf.slice(16);
+  
+  const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
+  let decrypted = decipher.update(data, null, 'utf8');
+  decrypted += decipher.final('utf8');
+  
+  return JSON.parse(decrypted);
+}
+
 // 飞书事件回调端点
 app.post('/webhook/feishu', async (req, res) => {
   try {
-    const { type, challenge, header, event } = req.body;
+    let body = req.body;
+    const encryptKey = config.eventConfig?.encryptKey;
+    
+    // 如果有加密内容，解密
+    if (body.encrypt && encryptKey) {
+      body = decryptEvent(body.encrypt, encryptKey);
+    }
+    
+    const { type, challenge, header, event } = body;
 
     // 处理 URL 验证（首次配置时）
     if (type === 'url_verification') {
