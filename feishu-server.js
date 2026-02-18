@@ -1,7 +1,8 @@
+require('dotenv').config();
+
 const express = require('express');
 const crypto = require('crypto');
 const axios = require('axios');
-const { config } = require('dotenv').config();
 
 const app = express();
 
