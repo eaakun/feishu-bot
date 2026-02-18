@@ -1,0 +1,7 @@
+[build]
+builder = "NIXPACKS_V1"
+buildCommand = "npm install && npm run build"
+startCommand = "npm start"
+
+[deploy]
+numReplicas = 1
