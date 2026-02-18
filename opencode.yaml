@@ -1,0 +1,26 @@
+# OpenCode 部署配置
+# 访问 https://opencode.ai 创建项目
+
+# 项目名称
+name: feishu-bot
+
+# 部署类型
+# - web: Web 服务
+# - worker: 后台任务
+type: web
+
+# 构建命令
+build: npm install
+
+# 启动命令
+start: npm start
+
+# 端口
+port: 3000
+
+# 环境变量（在 OpenCode 控制台设置）
+FEISHU_APP_ID=cli_a905ffbe2ff81bd2
+FEISHU_APP_SECRET=40IHBhA1CbUbMHZ0Rurij4FO3coum0o
+FEISHU_ENCRYPT_KEY=4W0U0xKDlxassMBlxH9uIbGLGj7a2bfg
+FEISHU_VERIFICATION_TOKEN=0Eoibn15qpN8LHj5lpvrgdPELtS7F8di
+PORT=3000

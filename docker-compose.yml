@@ -1,0 +1,23 @@
+# 适用于不同部署平台的配置
+
+# Docker Compose（本地开发）
+version: '3.8'
+services:
+  feishu-bot:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - FEISHU_APP_ID=${FEISHU_APP_ID}
+      - FEISHU_APP_SECRET=${FEISHU_APP_SECRET}
+      - PORT=3000
+    restart: unless-stopped
+
+# Railway 配置（如需要）
+# 访问 https://railway.app 部署
+
+# Render 配置（如需要）
+# 访问 https://render.com 部署
+
+# Vercel 配置（如需要）
+# 注意：Vercel 不支持长连接，需要使用 Serverless 模式
