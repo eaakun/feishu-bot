@@ -15,6 +15,14 @@ services:
 
 # Railway 配置（如需要）
 # 访问 https://railway.app 部署
+# 1. 登录 Railway
+# 2. 点击 "New Project" → "Deploy from GitHub repo"
+# 3. 选择 eaakun/feishu-bot 仓库
+# 4. 在 Variables 中添加以下环境变量：
+#    - FEISHU_APP_ID = cli_a905ffbe2ff81bd2
+#    - FEISHU_APP_SECRET = 40IHBhA1CbUbMHZ0Rurij4FO3coum0o
+#    - FEISHU_ENCRYPT_KEY = 4W0U0xKDlxassMBlxH9uIbGLGj7a2bfg
+#    - FEISHU_VERIFICATION_TOKEN = 0Eoibn15qpN8LHj5lpvrgdPELtS7F8di
 
 # Render 配置（如需要）
 # 访问 https://render.com 部署
