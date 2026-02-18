@@ -104,13 +104,11 @@ function verifySignature(timestamp, nonce, encryptKey, body) {
 // 飞书事件回调端点
 app.post('/webhook/feishu', async (req, res) => {
   try {
-    const { header, event } = req.body;
+    const { type, challenge, header, event } = req.body;
 
     // 处理 URL 验证（首次配置时）
-    if (header?.event_type === 'url_verification') {
-      return res.json({
-        challenge: req.body.challenge
-      });
+    if (type === 'url_verification') {
+      return res.json({ challenge });
     }
 
     // 处理消息事件
